@@ -1,11 +1,19 @@
 id: disciplined-implementation
+slug: disciplined-implementation
 name: Disciplined Implementation
 version: 1.0.0
+summary: Structured implementation loop for reliable delivery, verification, and review.
 author: Scott Weiss
 license: MIT
 description: |
   A rigorous, portable engineering method for implementing features, fixing bugs,
   refactoring, or investigating codebases. Language- and tool-neutral.
+
+entry: skills/disciplined-implementation/disciplined-implementation.md
+readme: skills/disciplined-implementation/README.md
+examples:
+  - skills/disciplined-implementation/examples/codex-usage.md
+  - skills/disciplined-implementation/examples/claude-usage.md
 
 tags:
   - engineering
@@ -13,18 +21,19 @@ tags:
   - testing
   - code-review
   - discipline
-  - tdd
   - verification
   - audit
 
 harness_compatibility:
   codex:
     supported: true
-    format: "markdown"
-    integration: "paste as instruction or reference document"
+    format: markdown
+    integration: paste as instruction or reference document
   claude:
     supported: true
-    format: "markdown"
-    integration: "include in system prompt or custom instructions"
+    format: markdown
+    integration: include in system prompt or custom instructions
 
-maturity: stable
+metadata:
+  maturity: stable
+  maintainer: Scott Weiss

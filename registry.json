@@ -1,8 +1,9 @@
 {
   "marketplace": {
     "name": "Scott Weiss Skills Marketplace",
-    "description": "Portable engineering skills for Codex and Claude harnesses",
-    "version": "1.0.0",
+    "description": "Portable engineering skills for AI coding harnesses",
+    "summary": "Machine-discoverable marketplace of reusable skills with cross-harness integration guidance.",
+    "version": "1.1.0",
     "author": "Scott Weiss",
     "repository": "https://github.com/scottweiss/skills-marketplace",
     "license": "MIT"
@@ -10,10 +11,14 @@
   "skills": [
     {
       "id": "disciplined-implementation",
+      "slug": "disciplined-implementation",
       "name": "Disciplined Implementation",
       "version": "1.0.0",
-      "description": "A rigorous, portable engineering method for substantial coding tasks (features, bugs, refactoring, investigation). Language- and tool-neutral.",
+      "summary": "Structured implementation loop for reliable delivery, verification, and review.",
+      "description": "A rigorous, portable engineering method for implementing features, fixing bugs, refactoring, or investigating codebases.",
       "path": "skills/disciplined-implementation/",
+      "entry": "skills/disciplined-implementation/disciplined-implementation.md",
+      "readme": "skills/disciplined-implementation/README.md",
       "tags": [
         "engineering",
         "methodology",
@@ -21,7 +26,6 @@
         "code-review",
         "process",
         "discipline",
-        "tdd",
         "verification",
         "audit"
       ],
@@ -37,18 +41,23 @@
           "integration": "include in system prompt or custom instructions"
         }
       },
-      "author": "Scott Weiss",
-      "license": "MIT",
-      "maturity": "stable",
-      "keywords": [
-        "discipline",
-        "engineering",
-        "testing",
-        "review",
-        "verification",
-        "tdd",
-        "methodology"
-      ]
+      "metadata": {
+        "author": "Scott Weiss",
+        "license": "MIT",
+        "maturity": "stable",
+        "examples": [
+          "skills/disciplined-implementation/examples/codex-usage.md",
+          "skills/disciplined-implementation/examples/claude-usage.md"
+        ],
+        "keywords": [
+          "discipline",
+          "engineering",
+          "testing",
+          "review",
+          "verification",
+          "methodology"
+        ]
+      }
     }
   ]
 }
