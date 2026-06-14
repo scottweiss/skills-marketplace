@@ -35,7 +35,7 @@ jobs:
           registry_path = repo / 'registry.json'
           registry = json.loads(registry_path.read_text(encoding='utf-8'))
 
-          required_skill_fields = {'id', 'slug', 'name', 'version', 'summary', 'entry', 'readme', 'metadata'}
+          required_skill_fields = {'id', 'slug', 'name', 'version', 'summary', 'path', 'entry', 'readme', 'metadata'}
 
           for skill in registry.get('skills', []):
               missing = sorted(required_skill_fields - set(skill.keys()))

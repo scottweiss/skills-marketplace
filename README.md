@@ -27,6 +27,7 @@ This repository packages practical engineering skills so they can be:
 
 Inspect `registry.json` and read each skill entry's:
 - `slug`
+- `summary`
 - `entry`
 - `readme`
 - `metadata`
