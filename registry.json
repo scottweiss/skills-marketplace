@@ -1,0 +1,54 @@
+{
+  "marketplace": {
+    "name": "Scott Weiss Skills Marketplace",
+    "description": "Portable engineering skills for Codex and Claude harnesses",
+    "version": "1.0.0",
+    "author": "Scott Weiss",
+    "repository": "https://github.com/scottweiss/skills-marketplace",
+    "license": "MIT"
+  },
+  "skills": [
+    {
+      "id": "disciplined-implementation",
+      "name": "Disciplined Implementation",
+      "version": "1.0.0",
+      "description": "A rigorous, portable engineering method for substantial coding tasks (features, bugs, refactoring, investigation). Language- and tool-neutral.",
+      "path": "skills/disciplined-implementation/",
+      "tags": [
+        "engineering",
+        "methodology",
+        "testing",
+        "code-review",
+        "process",
+        "discipline",
+        "tdd",
+        "verification",
+        "audit"
+      ],
+      "harnesses": {
+        "codex": {
+          "supported": true,
+          "format": "markdown",
+          "integration": "paste as instruction or reference document"
+        },
+        "claude": {
+          "supported": true,
+          "format": "markdown",
+          "integration": "include in system prompt or custom instructions"
+        }
+      },
+      "author": "Scott Weiss",
+      "license": "MIT",
+      "maturity": "stable",
+      "keywords": [
+        "discipline",
+        "engineering",
+        "testing",
+        "review",
+        "verification",
+        "tdd",
+        "methodology"
+      ]
+    }
+  ]
+}
