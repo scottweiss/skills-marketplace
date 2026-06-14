@@ -1,22 +1,38 @@
 # Disciplined Implementation
 
-A portable engineering method for substantial coding tasks across Codex, Claude, and other harnesses.
+A reusable implementation discipline for substantial coding tasks.
 
-## Quick Start
+## Summary
 
-### Claude
-1. Copy `disciplined-implementation.md`
-2. Paste it into custom instructions or a system prompt
+Disciplined Implementation defines a repeatable loop for planning, execution, validation, review, and auditable reporting.
 
-### Codex
-Reference this repository or paste the core markdown directly into your harness prompt.
+## When to use
 
-## Core Loop
+Use this skill for:
+- multi-file feature work
+- bug fixes with regression risk
+- refactors that require verification
+- investigations that need explicit evidence
 
-Orient → ground the plan in real signatures → write a failing test → make it pass → run the full gate → verify the real artifact → review independently → commit one logical concern → report auditable state.
+## Quick start
 
-## Files
+1. Read `disciplined-implementation.md`
+2. Apply the core loop to your task
+3. Use examples for harness-specific prompt structure
 
-- `disciplined-implementation.md` — the core skill
-- `examples/codex-usage.md` — Codex usage example
-- `examples/claude-usage.md` — Claude usage example
+## Skill files
+
+- `disciplined-implementation.md` — core skill entry document
+- `examples/codex-usage.md` — Codex usage pattern
+- `examples/claude-usage.md` — Claude usage pattern
+- `skill.yaml` — machine-readable metadata contract
+
+## Integration notes
+
+- Registry discovery fields point to this skill's `entry` and `readme`
+- Examples are declared in `skill.yaml` and `registry.json` for machine loading
+
+## Limitations
+
+- Assumes a workflow that supports iterative validation and review
+- Requires adapting command-level checks to each target repository

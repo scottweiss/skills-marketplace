@@ -1,10 +1,17 @@
-# Integrating Skills with Codex and Claude
+# Integration Guide
 
-This document explains how to use marketplace skills with AI coding harnesses.
+This guide explains how to discover and integrate skills from this marketplace.
+
+## Discovery flow
+
+1. Read `registry.json`
+2. Select a skill by `slug` and `summary`
+3. Resolve `entry` and `readme` paths
+4. Load examples listed in `metadata.examples`
 
 ## Codex
 
-### Option 1: Reference the repository
+### Repository reference
 
 ```yaml
 skills:
@@ -12,23 +19,26 @@ skills:
     skill: "disciplined-implementation"
 ```
 
-### Option 2: Paste the skill content
+### Direct content inclusion
 
-Copy the core markdown file for the skill and include it in your Codex prompt or harness instructions.
+Load the file declared by the skill entry (for example: `skills/disciplined-implementation/disciplined-implementation.md`) and include it in your instruction context.
 
 ## Claude
 
-### Option 1: Custom instructions
+Use the same skill entry markdown in either:
+- custom instructions
+- a system prompt
 
-Paste the skill content into Claude custom instructions.
+## Recommended integration behavior
 
-### Option 2: System prompt
+- Always resolve from `registry.json` instead of hardcoding paths
+- Keep skill entry and examples in sync
+- Prefer loading skill README plus entry for onboarding and execution context
+- Pin to repository revision when deterministic behavior is required
 
-Include the skill markdown inside the system prompt for your Claude API call.
+## Verification
 
-## Best Practices
-
-- Start with one skill at a time
-- Prefer the full source markdown for the initial integration
-- Verify the harness is actually following the skill
-- Keep the registry entry and examples in sync
+After integration:
+- validate the selected skill files exist
+- verify your harness follows the expected workflow from the skill
+- review examples if behavior diverges

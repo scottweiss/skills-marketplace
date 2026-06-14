@@ -1,53 +1,60 @@
 # Skills Marketplace
 
-A curated collection of portable engineering skills for AI coding harnesses (Codex, Claude, and others). Each skill is language-agnostic, harness-neutral, and battle-tested.
+A curated, machine-discoverable marketplace of reusable skills for AI coding agents and teams.
 
-## Available Skills
+## Why this repository
 
-| Skill | Description | Harnesses |
-|-------|-------------|-----------|
-| [Disciplined Implementation](skills/disciplined-implementation/) | A rigorous, portable engineering method for substantial coding tasks | Codex, Claude |
+This repository packages practical engineering skills so they can be:
+- discovered via `registry.json`
+- integrated across harnesses (Codex, Claude, and others)
+- reused consistently across projects
 
-## Quick Start
+## Marketplace structure
 
-### Use in Claude
+- `registry.json` — canonical index of published skills
+- `skills/<skill-id>/` — one directory per skill
+- `docs/` — contributor and integration guidance
 
-1. Open [disciplined-implementation.md](skills/disciplined-implementation/disciplined-implementation.md)
-2. Copy the content
-3. Paste into your Claude system prompt or custom instructions
+## Available skills
 
-### Use in Codex
+| Skill | Summary | Version |
+| --- | --- | --- |
+| [Disciplined Implementation](skills/disciplined-implementation/) | Structured implementation loop for reliable delivery, verification, and review | 1.0.0 |
 
-Add to your harness config:
+## Quick start
+
+### Discover skills
+
+Inspect `registry.json` and read each skill entry's:
+- `slug`
+- `entry`
+- `readme`
+- `metadata`
+
+### Use with Codex
+
 ```yaml
 skills:
   - source: "github://scottweiss/skills-marketplace"
     skill: "disciplined-implementation"
 ```
 
-## About This Marketplace
+### Use with Claude
 
-This marketplace contains portable, reusable engineering methodologies designed for AI coding agents and developers. Each skill:
-- ✅ Is language- and tool-neutral
-- ✅ Has been refined through real-world usage
-- ✅ Works across multiple harnesses (Codex, Claude, etc.)
-- ✅ Includes integration examples
+Open `skills/disciplined-implementation/disciplined-implementation.md` and include it in your system/custom instructions.
 
-## Adding New Skills
+## Publishing and contribution
 
-See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for guidelines on creating and submitting new skills.
+- Contribution guide: [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md)
+- Skill authoring template: [`docs/SKILL-TEMPLATE.md`](docs/SKILL-TEMPLATE.md)
+- Integration details: [`docs/INTEGRATION.md`](docs/INTEGRATION.md)
 
-## Integration Guide
+## Stability and compatibility
 
-Learn how to integrate these skills into your harness:
-- [Codex Integration](docs/INTEGRATION.md#codex)
-- [Claude Integration](docs/INTEGRATION.md#claude)
+- Skill contracts are declared in `skill.yaml`
+- Marketplace discovery contracts are declared in `registry.json`
+- Validation checks run in `.github/workflows/validate.yml`
 
 ## License
 
-MIT - See [LICENSE](LICENSE) for details.
-
----
-
-**Maintained by:** Scott Weiss  
-**Repository:** https://github.com/scottweiss/skills-marketplace
+MIT — see [`LICENSE`](LICENSE).

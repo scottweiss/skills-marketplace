@@ -1,72 +1,65 @@
-# Contributing Skills to the Marketplace
+# Contributing
 
-Thank you for considering adding a skill to this marketplace! This guide will help you create and submit a well-structured, reusable skill.
+Thank you for helping expand the marketplace.
 
-## Skill Requirements
+## Contribution scope
 
-Before creating a skill, ensure it meets these criteria:
+Contributions may include:
+- new skills
+- updates to existing skills
+- documentation and validation improvements
 
-1. **Language-neutral or explicitly scoped** — Skills should be applicable across multiple programming languages, or clearly document their language constraints.
-2. **Harness-agnostic** — Skills should work with any AI coding harness (Codex, Claude, or others), or explicitly document which harnesses they support.
-3. **Battle-tested** — The skill should have been used and refined in real scenarios.
-4. **Well-documented** — Clear, actionable instructions with examples.
-5. **Reusable** — Designed for sharing and reproduction across projects.
+## Required skill layout
 
-## Creating a New Skill
+Each skill lives in `skills/<skill-id>/` and should include:
 
-### 1. Use the Skill Template
+- `skill.yaml`
+- `README.md`
+- `<skill-id>.md` (main entry document)
+- `examples/` with at least one harness example
 
-Start with [`docs/SKILL-TEMPLATE.md`](SKILL-TEMPLATE.md) to scaffold your skill structure.
+## Required metadata
 
-### 2. Directory Structure
+### `skill.yaml`
 
-Create your skill under `skills/[skill-id]/`:
+A skill definition should include at minimum:
+- `id`, `name`, `version`
+- `summary`, `description`
+- `entry`, `readme`
+- `examples`
+- harness compatibility details
 
-```
-skills/[skill-id]/
-├── skill.yaml
-├── README.md
-├── [skill-name].md
-├── examples/
-│   ├── codex-usage.md
-│   └── claude-usage.md
-└── tests/                     # optional
-```
+### `registry.json`
 
-### 3. Update the Registry
+Every skill listed in `registry.json` must include discovery fields:
+- `slug`
+- `entry`
+- `readme`
+- `metadata`
+- `summary`
 
-Add your skill's metadata to `registry.json` so it can be discovered.
+## Submission checklist
 
-### 4. Document Harness Compatibility
+1. Add or update files under `skills/<skill-id>/`
+2. Add or update skill entry in `registry.json`
+3. Verify all referenced files exist
+4. Run repository validation checks
+5. Open a pull request with a clear summary
 
-Clearly specify:
-- Supported harnesses
-- Integration method
-- Expected format
-- Any limitations
+## Naming conventions
 
-## Submission Process
+- Skill IDs and slugs: lowercase kebab-case
+- Directory name: must match `id`
+- Entry document: should match the skill identifier when possible
 
-1. Add your skill files under `skills/[skill-id]/`
-2. Update `registry.json`
-3. Verify links and examples
-4. Open a pull request
+## Quality expectations
 
-## Naming Conventions
-
-- **Skill ID**: lowercase kebab-case, e.g. `disciplined-implementation`
-- **Directory name**: must match the skill ID
-- **Display name**: human-readable title case
-
-## Quality Bar
-
-A good skill should be:
-- Concrete
-- Actionable
-- Reusable
-- Portable
-- Auditable
+A marketplace skill should be:
+- portable across environments
+- concrete and actionable
+- easy to discover and integrate
+- auditable through examples and metadata
 
 ## License
 
-Unless otherwise specified, marketplace contributions are MIT licensed.
+Unless explicitly stated otherwise, contributions are MIT licensed.

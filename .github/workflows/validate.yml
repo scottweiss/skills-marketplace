@@ -1,0 +1,62 @@
+name: Validate Marketplace
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install validation dependencies
+        run: pip install pyyaml
+
+      - name: Validate registry and skill contracts
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import yaml
+
+          repo = Path('.')
+          registry_path = repo / 'registry.json'
+          registry = json.loads(registry_path.read_text(encoding='utf-8'))
+
+          required_skill_fields = {'id', 'slug', 'name', 'version', 'summary', 'entry', 'readme', 'metadata'}
+
+          for skill in registry.get('skills', []):
+              missing = sorted(required_skill_fields - set(skill.keys()))
+              if missing:
+                  raise SystemExit(f"Skill {skill.get('id', '<unknown>')} missing fields: {missing}")
+
+              for path_field in ('entry', 'readme'):
+                  candidate = repo / skill[path_field]
+                  if not candidate.exists():
+                      raise SystemExit(f"Missing file referenced by {skill['id']}.{path_field}: {skill[path_field]}")
+
+              metadata = skill.get('metadata', {})
+              for ex in metadata.get('examples', []):
+                  if not (repo / ex).exists():
+                      raise SystemExit(f"Missing example referenced by {skill['id']}: {ex}")
+
+              skill_yaml_path = repo / skill['path'] / 'skill.yaml'
+              if not skill_yaml_path.exists():
+                  raise SystemExit(f"Missing skill.yaml for {skill['id']}: {skill_yaml_path}")
+
+              skill_yaml = yaml.safe_load(skill_yaml_path.read_text(encoding='utf-8'))
+              for field in ('id', 'summary', 'entry', 'readme', 'examples'):
+                  if field not in skill_yaml:
+                      raise SystemExit(f"skill.yaml missing field '{field}' for {skill['id']}")
+
+          print('Validation passed.')
+          PY
