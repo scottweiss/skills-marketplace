@@ -1,0 +1,30 @@
+id: disciplined-implementation
+name: Disciplined Implementation
+version: 1.0.0
+author: Scott Weiss
+license: MIT
+description: |
+  A rigorous, portable engineering method for implementing features, fixing bugs,
+  refactoring, or investigating codebases. Language- and tool-neutral.
+
+tags:
+  - engineering
+  - methodology
+  - testing
+  - code-review
+  - discipline
+  - tdd
+  - verification
+  - audit
+
+harness_compatibility:
+  codex:
+    supported: true
+    format: "markdown"
+    integration: "paste as instruction or reference document"
+  claude:
+    supported: true
+    format: "markdown"
+    integration: "include in system prompt or custom instructions"
+
+maturity: stable
