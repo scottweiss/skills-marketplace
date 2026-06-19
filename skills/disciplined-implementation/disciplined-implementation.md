@@ -1,68 +1,117 @@
 ---
 name: disciplined-implementation
-description: Use for any substantial coding task — implementing a feature, fixing a bug, refactoring, or investigating a codebase. A rigorous, project- and harness-agnostic delivery method — orient before coding, ground plans in real signatures, work test-first (RED→GREEN), run the full verification gate before every commit, verify the real running artifact, review with independent eyes, commit small explicit increments, and report auditable state. Language- and tool-neutral.
+description: Use for substantial code changes or risky investigations. A portable, risk-calibrated delivery method — read repository instructions, map impact, ground plans in real signatures, establish a baseline, define proof before implementation, prefer RED→GREEN for behavior changes, run repository-prescribed verification, exercise the real artifact, review the diff independently, publish only when authorized, and report exact evidence and residual risk. Language- and tool-neutral.
 ---
 
 # Disciplined Implementation
 
-A portable engineering method distilled from observing a highly effective coding agent. It assumes nothing about your language, framework, repo layout, or agent harness. The core convictions: **never trust an abstraction you haven't watched fail, never ship output you haven't seen run, never duplicate what you could share, and always leave an auditable trail.**
+A portable method for reliable engineering changes. **Rigor scales with risk; evidence does not disappear.**
+
+## Operating contract
+
+- This skill supplements the task and repository instructions; it does not replace them. Surface material conflicts instead of silently choosing.
+- Protect existing work: inspect status and diffs before editing, and never overwrite unrelated changes.
+- Prefer the repository's established commands, patterns, generators, and dependency tooling over invented substitutes.
+- Never expose secrets, credentials, private data, or sensitive production output in logs, screenshots, fixtures, or reports.
+- An investigation may correctly end with evidence and a recommendation rather than a code change.
+- When a step is impossible or inapplicable, state why, use the strongest feasible substitute, and report the residual risk.
 
 ## Core loop
-Orient → ground the plan in real signatures → write a failing test → make it pass → run the full gate and cite the numbers → verify the real artifact → review with independent eyes → commit one concern with explicit paths → report what landed and why.
 
----
+Scope → orient → establish a baseline → define proof → observe failure when applicable → implement the smallest slice → run targeted checks → run the full gate → exercise the real artifact → review independently → publish and report.
 
-## 1 — Orient before touching code
-- Read the task/handoff/spec and any existing design docs first; never start blind.
-- **Enumerate before you read in depth.** Search for the symbol or pattern to build a map of call sites, then read only the narrow ranges you need — don't read large files whole.
-- **Trace each relevant chain to its atomic source** (caller → implementation → definition → data/schema). At an interface boundary, verify the contract on BOTH sides and flag any divergence.
-- Track the work as discrete items in whatever task tool your harness provides; keep their status current.
+## 1 — Calibrate rigor and scope
 
-## 2 — Ground the plan in reality (multi-part work)
-- Before planning across multiple subsystems, gather the real signatures, types, and integration points — **don't plan from memory of APIs.** If your harness supports parallel subagents, fan the research out.
-- Decompose into named, numbered phases, each shipping something testable on its own. Write a phase's detailed plan only once the previous phase has landed, so it references real code, not guesses.
-- Prototype the interface cheaply (a signature, a wireframe, a sample payload) and get agreement before building behind it.
+- Define the acceptance criteria, affected surfaces, explicit non-goals, and required evidence before editing.
+- Scale ceremony to risk, not to line count:
 
-## 3 — Implement test-first
-- **Follow TDD literally:** write one failing test, RUN IT and watch it fail for the right reason, then write the minimal code to pass, then confirm green. If you didn't see it fail, you don't know it tests anything.
-- Write/lock the test expectations BEFORE the implementation edit. For multi-branch logic (success / error / loading / degraded), pin each branch with a concrete test before refactoring, so regressions can't slip through silently.
-- Match test fixtures to real data shapes (inspect the actual schema/response), not invented ones.
-- **Extract before you duplicate.** Before implementing a pattern, search whether it already exists elsewhere. If it does, extract it into one shared module/component/constant and migrate both consumers FIRST — then proceed. Do this on first sight, not after a reviewer flags it.
-- Keep modules small and single-responsibility; put decision tables in module-level constants, not inline conditionals. Scope each change to one concern; defer "while I'm here" cleanups to their own task.
+| Risk | Typical indicators | Expected evidence |
+|---|---|---|
+| Low | Documentation, metadata, or a local mechanical change with no runtime behavior | Focused validation, diff review, and any cheap repository-prescribed checks |
+| Medium | Contained behavior change, bug fix, or refactor | RED→GREEN when feasible, targeted checks, full gate, and real-artifact verification |
+| High | Public contract, schema/data migration, security, permissions, concurrency, broad refactor, or irreversible effect | Baseline, branch/error coverage, phase gates, migration and rollback reasoning, real-artifact verification, and independent review |
 
-## 4 — Verify with the full gate
-- **Run your project's complete verification gate before EVERY commit** — type-check/compile, lint (zero errors, not just zero *new* errors), build, and the test suite — and cite the numeric results ("214 tests pass"), never just "green".
-- During a task, stay fast with targeted test runs; run the full suite at phase boundaries. Long suites can run in the background while you do other work.
-- **Diagnose every gate failure to root cause before fixing.** If you suspect a failure is "pre-existing," verify it against the clean/base tree before trusting that claim.
-- Treat contract/schema changes as one atomic change: update the definition and every consumer (both sides, plus tests) together — no compatibility shims.
+- Decompose multi-part work into named slices that each produce a reviewable, testable increment. Detail later slices only after earlier assumptions are confirmed.
+- Keep task tracking and a decision log for multi-phase or high-risk work. For small work, the final evidence report is sufficient.
 
-## 5 — Verify the real artifact (not just the abstraction)
-- Tests and types prove the abstraction; they don't prove the running thing. **Exercise the ACTUAL output before declaring done:** hit the running service, render the UI and look at it, open the produced file, query the real datastore to confirm shapes and cardinality.
-- For UI work, capture the rendered result and compare it to the intended design, listing concrete deltas.
+## 2 — Orient before touching code
 
-## 6 — Review with independent eyes, then ship
-- **Don't review your own work in the same mindset.** If your harness supports subagents, dispatch a separate read-only reviewer against the change; otherwise review from a clean context with a deliberately critical eye.
-- Green tests are necessary, not sufficient — **read the diff line by line.** Ask for adversarial inputs against risky redesigns.
-- Use explicit review verdicts (APPROVED / CHANGES_REQUIRED + the specific fix), each finding a checklist item.
-- **Commit one logical concern per commit, staging explicit file paths** — never `git add -A` / `git add .` / broad subtree adds; they sweep unintended files. Write a message that explains WHY. Don't push unless asked.
-- Prefer writing a test against current behavior over stashing changes to compare — stashing risks losing uncommitted work.
-- Keep a **living decision/audit log** (findings with IDs + severity + status, decisions with rationale, proof references) and update it as you go, so any future contributor can reconstruct the state.
+- Read the task, repository instructions, relevant design documents, and the prescribed build/test commands first.
+- Enumerate relevant symbols, files, call sites, and existing patterns before reading deeply. Then read enough surrounding context to understand behavior; whole-file reading is appropriate when structure or invariants require it.
+- Trace each relevant chain to its source: caller → implementation → interface/type → schema or data. Verify contracts on both sides of every boundary.
+- Inspect actual signatures, data shapes, fixtures, feature flags, configuration, and generated-file markers. Use the generator rather than manually editing generated output.
+- Check the working tree for user changes and identify files that are out of scope.
 
-## Communicate throughout
-- Report exact, auditable state after each step: counts, gate status, commit hash, next action — **numbers, not adjectives.**
-- Surface blockers immediately, named by type and by who must resolve them (a decision, a credential, a permission, a scope question). Don't silently work around them.
-- When the reviewer/operator disagrees, reframe rather than defend: acknowledge the point, sharpen it into a constraint, propose grounded alternatives.
-- Flag uncertainty explicitly; "code I didn't read" is not "code that doesn't exist."
+## 3 — Ground the plan and establish a baseline
+
+- Reproduce the defect, capture current behavior, or run the narrowest relevant check before changing code whenever practical.
+- Ground the plan in real signatures, types, schemas, and integration points; do not plan from remembered APIs.
+- For expensive or externally visible interfaces, validate a cheap prototype first: a function signature, sample payload, migration sketch, or UI wireframe.
+- Record material assumptions and unknowns. Do not present unread code or unavailable environments as verified facts.
+
+## 4 — Define proof, then implement the smallest slice
+
+- For behavior changes and bug fixes, prefer test-first: write the expectation, run it, confirm it fails for the intended reason, implement the minimum change, confirm it passes, then refactor.
+- When an automated failing test is not suitable—such as documentation, mechanical metadata, exploratory work, an inaccessible external dependency, or an untestable legacy seam—define the strongest alternative proof before editing and report the exception.
+- Pin success, error, empty, boundary, loading, degraded, permission, and retry paths in proportion to risk.
+- Match fixtures to observed production shapes or authoritative schemas, not invented approximations.
+- Search for existing behavior before adding a pattern. Share an abstraction only when semantics, ownership, and lifecycle align; similar syntax alone is not a reason to extract.
+- Keep each change focused. Separate unrelated cleanup and avoid speculative compatibility code.
+
+## 5 — Use a verification ladder
+
+- Run fast, targeted checks after each slice.
+- Run the repository-prescribed full gate before final handoff and at completed phase boundaries. Before intermediate commits, run at least the affected checks; follow stricter repository rules when they exist.
+- The full gate is whatever the project defines—tests, type-checking, lint, build, generation checks, formatting, integration tests—not a generic checklist imposed on every repository.
+- Report the exact command, result, and available counts. Never replace evidence with “looks good” or “green.”
+- Diagnose failures to root cause. Before calling a failure pre-existing, reproduce it on the clean base revision or cite independent baseline evidence.
+- If the working tree changes while a check is running, rerun the affected check against the final state.
+- Treat contract changes as coordinated migrations: update definitions, consumers, tests, and rollout/compatibility behavior together. Use a compatibility layer only when the rollout requires it, with an explicit removal plan.
+
+## 6 — Verify the real artifact
+
+- Exercise the actual output before declaring completion: run the service or CLI, render and inspect the UI, open the generated file, or query the real test datastore.
+- For UI work, check intended states, interaction, accessibility, and relevant viewport behavior against the design.
+- For data or migration work, verify shape, cardinality, idempotency, failure behavior, and rollback or recovery.
+- Use a safe environment for external or destructive effects. Clearly identify anything that could not be exercised and why.
+
+## 7 — Review independently, then publish
+
+- Inspect status and read the final diff line by line. Check for debug code, accidental files, generated drift, unrelated edits, and whitespace errors.
+- Use a separate read-only reviewer or a clean-context review when available. Otherwise perform a deliberate adversarial pass against the acceptance criteria and highest-risk inputs.
+- Track findings with severity and disposition; unresolved material findings block completion.
+- Commit one logical concern at a time. Stage explicit paths or patches rather than broad adds, and preserve unrelated user changes.
+- Publish only when authorized. A request to create a pull request authorizes pushing a dedicated branch; it does not authorize unrelated changes or merging.
+- After publishing, verify that the remote commit and pull-request diff contain exactly the intended files.
+
+## Evidence report
+
+Use an auditable final report:
+
+```text
+Outcome:
+Scope:
+Evidence:
+- <command or inspection>: <result and count, when available>
+Artifact verification:
+Review:
+Deviations / residual risk:
+Commit / pull request:
+```
+
+Do not invent counts. Use exact numbers when the tool exposes them, and name checks that were skipped, blocked, or unavailable.
 
 ## Red flags / stop
+
 | About to… | Instead… |
 |---|---|
-| Implement a pattern that already exists elsewhere | Search first; extract a shared unit and migrate both, then proceed |
-| Commit after only a partial check | Run the full gate, confirm zero lint errors, cite counts |
-| `git add -A` / `git add .` / a broad subtree add | Stage explicit file paths |
-| Mark work done from green tests alone | Exercise the real running artifact and look at the output |
-| Trust your own (or a subagent's) change because tests pass | Read the diff line-by-line; review with independent eyes |
-| Write code before a failing test | Write and run the failing test first |
-| Plan from memory of an API's shape | Gather the real signatures first |
-| Say "pre-existing failure" | Verify against the clean/base tree first |
-| Push because it's "done" | Don't — push only when asked |
+| Edit before reading task and repository instructions | Orient and inspect the working tree first |
+| Claim TDD without observing the test fail | Run the failing test, or document why another proof is stronger |
+| Call a failure “pre-existing” from memory | Reproduce it on the clean base revision |
+| Skip the full gate without explanation | Run it, or report the constraint and residual risk |
+| Extract merely because two snippets look alike | Confirm shared semantics, ownership, and lifecycle |
+| Edit generated output by hand | Find and run the authoritative generator |
+| Stage the entire tree | Stage explicit paths or patches and inspect the staged diff |
+| Declare completion from tests alone | Exercise the real artifact and inspect its output |
+| Publish without authorization | Keep changes local; a pull-request request is explicit authorization |
+| Put secrets or private data in evidence | Redact or replace with safe fixtures |
