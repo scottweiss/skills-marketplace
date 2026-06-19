@@ -1,88 +1,111 @@
 ---
 name: disciplined-implementation
-description: Use for substantial code changes or risky investigations. A portable, risk-calibrated delivery method — read repository instructions, map impact, ground plans in real signatures, establish a baseline, define proof before implementation, prefer RED→GREEN for behavior changes, run repository-prescribed verification, exercise the real artifact, review the diff independently, publish only when authorized, and report exact evidence and residual risk. Language- and tool-neutral.
+description: Use for any substantial coding task — implementing a feature, fixing a bug, refactoring, or investigating a codebase. An intentionally strict, project- and harness-agnostic delivery method — orient before coding, ground plans in real signatures, work test-first (RED→GREEN), run the complete verification gate before every commit, verify the real running artifact, review with independent eyes, commit small explicit increments, and report auditable evidence. Waivers are allowed only for steps that are impossible or genuinely inapplicable. Language- and tool-neutral.
 ---
 
 # Disciplined Implementation
 
-A portable method for reliable engineering changes. **Rigor scales with risk; evidence does not disappear.**
+An intentionally strict engineering method distilled from observed Fable 5 behavior. It assumes nothing about language, framework, repository layout, or agent harness. Its core convictions are: **never trust a test you have not watched fail, never ship output you have not seen run, never duplicate a concept you could correctly share, and always leave an auditable trail.**
 
 ## Operating contract
 
-- This skill supplements the task and repository instructions; it does not replace them. Surface material conflicts instead of silently choosing.
-- Protect existing work: inspect status and diffs before editing, and never overwrite unrelated changes.
+- Once this skill is invoked for an in-scope task, its required steps are mandatory. Do not silently scale them down because the task appears easy, the gate is slow, or the deadline is inconvenient.
+- Task and repository instructions take precedence. Read them first and surface material conflicts instead of silently choosing.
+- Protect existing work: inspect status and diffs before editing, identify out-of-scope files, and never overwrite unrelated changes.
 - Prefer the repository's established commands, patterns, generators, and dependency tooling over invented substitutes.
 - Never expose secrets, credentials, private data, or sensitive production output in logs, screenshots, fixtures, or reports.
 - An investigation may correctly end with evidence and a recommendation rather than a code change.
-- When a step is impossible or inapplicable, state why, use the strongest feasible substitute, and report the residual risk.
+- A required step may be skipped only through the waiver protocol below.
 
 ## Core loop
 
-Scope → orient → establish a baseline → define proof → observe failure when applicable → implement the smallest slice → run targeted checks → run the full gate → exercise the real artifact → review independently → publish and report.
+Orient → ground the plan in real signatures → establish the baseline → write and run a failing test → make it pass → run the complete gate before every commit → verify the real artifact → review with independent eyes → commit one concern with explicit paths → report exactly what landed and why.
 
-## 1 — Calibrate rigor and scope
+## 1 — Confirm scope and acceptance criteria
 
-- Define the acceptance criteria, affected surfaces, explicit non-goals, and required evidence before editing.
-- Scale ceremony to risk, not to line count:
-
-| Risk | Typical indicators | Expected evidence |
-|---|---|---|
-| Low | Documentation, metadata, or a local mechanical change with no runtime behavior | Focused validation, diff review, and any cheap repository-prescribed checks |
-| Medium | Contained behavior change, bug fix, or refactor | RED→GREEN when feasible, targeted checks, full gate, and real-artifact verification |
-| High | Public contract, schema/data migration, security, permissions, concurrency, broad refactor, or irreversible effect | Baseline, branch/error coverage, phase gates, migration and rollback reasoning, real-artifact verification, and independent review |
-
-- Decompose multi-part work into named slices that each produce a reviewable, testable increment. Detail later slices only after earlier assumptions are confirmed.
-- Keep task tracking and a decision log for multi-phase or high-risk work. For small work, the final evidence report is sufficient.
+- Use this skill for substantial feature work, bug fixes, refactors, contract changes, migrations, or investigations where correctness and reconstructable evidence matter.
+- Trivial prose-only or mechanical metadata work may explicitly opt out before implementation. Do not claim this skill was applied partially.
+- Define acceptance criteria, affected surfaces, explicit non-goals, and required evidence before editing.
+- Decompose multi-part work into named, numbered phases that each produce a testable increment. Detail a later phase only after earlier assumptions have been verified in real code.
+- Track work as discrete items and keep a living decision/audit log for findings, decisions, waivers, and proof references.
 
 ## 2 — Orient before touching code
 
-- Read the task, repository instructions, relevant design documents, and the prescribed build/test commands first.
-- Enumerate relevant symbols, files, call sites, and existing patterns before reading deeply. Then read enough surrounding context to understand behavior; whole-file reading is appropriate when structure or invariants require it.
-- Trace each relevant chain to its source: caller → implementation → interface/type → schema or data. Verify contracts on both sides of every boundary.
-- Inspect actual signatures, data shapes, fixtures, feature flags, configuration, and generated-file markers. Use the generator rather than manually editing generated output.
-- Check the working tree for user changes and identify files that are out of scope.
+- Read the task, handoff, specification, repository instructions, design documents, and prescribed build/test commands first.
+- Enumerate relevant symbols, files, call sites, and existing patterns before reading deeply. Then read enough surrounding context to understand invariants; read whole files when structure requires it.
+- Trace every relevant chain to its atomic source: caller → implementation → interface/type → schema or data. Verify contracts on both sides of every boundary.
+- Inspect actual signatures, data shapes, fixtures, feature flags, configuration, and generated-file markers. Use the authoritative generator rather than editing generated output by hand.
+- Inspect the working tree and staged diff before the first edit.
 
-## 3 — Ground the plan and establish a baseline
+## 3 — Ground the plan and baseline in reality
 
-- Reproduce the defect, capture current behavior, or run the narrowest relevant check before changing code whenever practical.
-- Ground the plan in real signatures, types, schemas, and integration points; do not plan from remembered APIs.
-- For expensive or externally visible interfaces, validate a cheap prototype first: a function signature, sample payload, migration sketch, or UI wireframe.
-- Record material assumptions and unknowns. Do not present unread code or unavailable environments as verified facts.
+- Reproduce the defect, capture current behavior, or run the narrowest relevant check before changing code.
+- Gather the real signatures, types, schemas, and integration points. Do not plan from remembered APIs.
+- For expensive or externally visible interfaces, validate a cheap prototype first: a signature, sample payload, migration sketch, or UI wireframe.
+- Record material assumptions and unknowns. “Code I did not read” is not “code that does not exist.”
+- For multi-system work, finish the current phase and update the plan from landed code before detailing the next phase.
 
-## 4 — Define proof, then implement the smallest slice
+## 4 — Implement test-first
 
-- For behavior changes and bug fixes, prefer test-first: write the expectation, run it, confirm it fails for the intended reason, implement the minimum change, confirm it passes, then refactor.
-- When an automated failing test is not suitable—such as documentation, mechanical metadata, exploratory work, an inaccessible external dependency, or an untestable legacy seam—define the strongest alternative proof before editing and report the exception.
-- Pin success, error, empty, boundary, loading, degraded, permission, and retry paths in proportion to risk.
+- **Follow TDD literally for behavior changes:** write one failing test, run it, confirm it fails for the intended reason, write the minimum implementation to pass, confirm green, then refactor.
+- Write and lock test expectations before the implementation edit. For multi-branch behavior, pin success, error, empty, boundary, loading, degraded, permission, and retry paths as applicable before restructuring code.
 - Match fixtures to observed production shapes or authoritative schemas, not invented approximations.
-- Search for existing behavior before adding a pattern. Share an abstraction only when semantics, ownership, and lifecycle align; similar syntax alone is not a reason to extract.
-- Keep each change focused. Separate unrelated cleanup and avoid speculative compatibility code.
+- A test that was never observed failing is not accepted as proof of the behavior it claims to protect.
+- When a failing automated test is genuinely impossible or inapplicable, invoke the waiver protocol before implementation and define the strongest available substitute proof.
 
-## 5 — Use a verification ladder
+## 5 — Implement the smallest correct shared unit
 
-- Run fast, targeted checks after each slice.
-- Run the repository-prescribed full gate before final handoff and at completed phase boundaries. Before intermediate commits, run at least the affected checks; follow stricter repository rules when they exist.
-- The full gate is whatever the project defines—tests, type-checking, lint, build, generation checks, formatting, integration tests—not a generic checklist imposed on every repository.
-- Report the exact command, result, and available counts. Never replace evidence with “looks good” or “green.”
-- Diagnose failures to root cause. Before calling a failure pre-existing, reproduce it on the clean base revision or cite independent baseline evidence.
-- If the working tree changes while a check is running, rerun the affected check against the final state.
-- Treat contract changes as coordinated migrations: update definitions, consumers, tests, and rollout/compatibility behavior together. Use a compatibility layer only when the rollout requires it, with an explicit removal plan.
+- Search for the concept and pattern before adding code.
+- Do not create a second implementation of the same responsibility. When semantics, ownership, and lifecycle align, extract the shared unit and migrate existing consumers before proceeding.
+- Similar syntax alone is not a reason to abstract. When implementations must remain separate, record the semantic or ownership distinction.
+- Keep modules small and single-responsibility. Put stable decision tables in named constants rather than burying them in branching code.
+- Scope each change to one concern. Defer “while I am here” cleanup to a separate task and commit.
+- Treat contract and schema changes as coordinated migrations: update definitions, consumers, tests, and rollout behavior together. Add a compatibility layer only when an explicit rollout requires it, with an owner and removal condition.
 
-## 6 — Verify the real artifact
+## 6 — Run the complete gate before every commit
 
-- Exercise the actual output before declaring completion: run the service or CLI, render and inspect the UI, open the generated file, or query the real test datastore.
-- For UI work, check intended states, interaction, accessibility, and relevant viewport behavior against the design.
+- Use targeted checks during the RED→GREEN loop for speed.
+- **Before every commit, run the repository's complete prescribed verification gate against the final tree:** type-check or compile, lint with zero errors, formatting or generation checks, build, and the complete relevant test suite.
+- The repository defines the exact gate. Discover and run it; do not replace it with a generic subset.
+- Report the exact commands, results, and available counts, such as “214 tests passed.” Never substitute “green,” “looks good,” or “should pass” for evidence.
+- Diagnose every failure to root cause. Before labeling a failure pre-existing, reproduce it on the clean base revision or cite equivalent independent baseline evidence.
+- If the working tree changes while a check runs, rerun the affected check against the final state.
+- A failed or unavailable full gate blocks the commit unless an explicit waiver is approved and recorded.
+
+## 7 — Verify the real artifact
+
+- Tests and types prove an abstraction; they do not prove the running output. Exercise the actual artifact before declaring completion: run the service or CLI, render and inspect the UI, open the produced file, or query the real test datastore.
+- For UI work, inspect intended states, interaction, accessibility, and relevant viewport behavior against the design; capture concrete deltas.
 - For data or migration work, verify shape, cardinality, idempotency, failure behavior, and rollback or recovery.
-- Use a safe environment for external or destructive effects. Clearly identify anything that could not be exercised and why.
+- Use a safe environment for external or destructive effects. Inability to exercise the artifact requires a waiver and remains residual risk.
 
-## 7 — Review independently, then publish
+## 8 — Review with independent eyes, then publish
 
-- Inspect status and read the final diff line by line. Check for debug code, accidental files, generated drift, unrelated edits, and whitespace errors.
-- Use a separate read-only reviewer or a clean-context review when available. Otherwise perform a deliberate adversarial pass against the acceptance criteria and highest-risk inputs.
-- Track findings with severity and disposition; unresolved material findings block completion.
-- Commit one logical concern at a time. Stage explicit paths or patches rather than broad adds, and preserve unrelated user changes.
-- Publish only when authorized. A request to create a pull request authorizes pushing a dedicated branch; it does not authorize unrelated changes or merging.
+- Inspect status and read the final diff line by line. Check for debug code, accidental files, generated drift, unrelated edits, placeholders, sensitive data, and whitespace errors.
+- When the harness supports it, dispatch a separate read-only reviewer. Otherwise review from a clean context with a deliberately adversarial mindset.
+- Use explicit review verdicts: `APPROVED` or `CHANGES_REQUIRED`, with every finding tracked to disposition. Unresolved material findings block completion.
+- Commit one logical concern at a time. Stage explicit paths or patches—never `git add -A`, `git add .`, or broad subtree adds—and inspect the staged diff.
+- Write commit messages that explain why the change exists.
+- Do not push unless asked. A request to create a pull request authorizes pushing its dedicated branch, not merging or publishing unrelated changes.
 - After publishing, verify that the remote commit and pull-request diff contain exactly the intended files.
+
+## 9 — Communicate and preserve the audit trail
+
+- Report exact state after each material step: counts, gate status, commit hash, blocker, and next action—numbers, not adjectives.
+- Surface blockers immediately, named by type and by who must resolve them. Do not silently work around decisions, credentials, permissions, or scope questions.
+- When the reviewer or operator disagrees, reframe rather than defend: acknowledge the point, sharpen it into a constraint, and propose grounded alternatives.
+- Keep findings with IDs, severity, status, and proof references; keep decisions with rationale; keep waivers with authorization and residual risk.
+- Flag uncertainty explicitly and distinguish verified facts from inference.
+
+## Waiver protocol
+
+A waiver is an exception record, not a convenience switch.
+
+- Waive a required step only when it is impossible or genuinely inapplicable—not because it is slow, expensive, inconvenient, or likely to pass.
+- Declare the waiver before skipping the step whenever possible.
+- Record: the required rule, why it cannot apply, evidence for that claim, substitute verification, residual risk, and the approving operator.
+- If the waiver undermines an acceptance criterion or production confidence, stop and request a decision rather than declaring completion.
+- Include every waiver in the final evidence report. No silent waivers.
 
 ## Evidence report
 
@@ -90,35 +113,40 @@ Use an auditable final report:
 
 ```text
 Outcome:
-Scope:
-Evidence:
-- <command or inspection>: <result and count, when available>
+Scope / non-goals:
+Baseline:
+RED→GREEN evidence:
+Complete gate before each commit:
+- <commit or planned commit>: <commands, results, and counts>
 Artifact verification:
-Review:
-Deviations / residual risk:
+Independent review verdict:
+Waivers:
+Residual risk:
 Commit / pull request:
 ```
 
-Do not invent counts. Use exact numbers when the tool exposes them, and name checks that were skipped, blocked, or unavailable.
+Do not invent counts. Name every check that was skipped, blocked, unavailable, or waived.
 
 ## Limitations
 
 - This method cannot discover a repository's real contracts or verification gate without access to its code, configuration, and instructions.
-- Unavailable services, credentials, devices, production-like data, or destructive environments limit real-artifact verification; report the gap rather than simulating certainty.
-- A clean-context self-review is useful but weaker than genuinely independent review.
-- Process evidence reduces avoidable risk; it does not replace security, legal, operational, accessibility, or other domain-specific expertise.
+- Some environments cannot provide services, credentials, devices, production-like data, or destructive test targets; these constraints require explicit waivers rather than simulated certainty.
+- A clean-context self-review is weaker than genuinely independent review.
+- Strict process reduces avoidable implementation risk; it does not replace security, legal, operational, accessibility, or other domain-specific expertise.
 
 ## Red flags / stop
 
 | About to… | Instead… |
 |---|---|
-| Edit before reading task and repository instructions | Orient and inspect the working tree first |
-| Claim TDD without observing the test fail | Run the failing test, or document why another proof is stronger |
+| Start coding before reading task and repository instructions | Orient and inspect the working tree first |
+| Write behavior code before observing a failing test | Run the failing test, or record an approved waiver first |
+| Commit after targeted checks only | Run the complete prescribed gate and cite exact results |
 | Call a failure “pre-existing” from memory | Reproduce it on the clean base revision |
-| Skip the full gate without explanation | Run it, or report the constraint and residual risk |
-| Extract merely because two snippets look alike | Confirm shared semantics, ownership, and lifecycle |
+| Duplicate an existing responsibility | Search first; share it when semantics, ownership, and lifecycle align |
+| Abstract two coincidentally similar snippets | Record the distinction and keep them separate |
 | Edit generated output by hand | Find and run the authoritative generator |
 | Stage the entire tree | Stage explicit paths or patches and inspect the staged diff |
 | Declare completion from tests alone | Exercise the real artifact and inspect its output |
-| Publish without authorization | Keep changes local; a pull-request request is explicit authorization |
-| Put secrets or private data in evidence | Redact or replace with safe fixtures |
+| Skip a rule because it is inconvenient | Follow it or record an approved waiver |
+| Push because the work is done | Push only when asked |
+| Put secrets or private data in evidence | Redact or replace them with safe fixtures |
