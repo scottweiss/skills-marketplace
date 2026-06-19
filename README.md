@@ -58,7 +58,7 @@ python -m pip install -r requirements-validation.txt
 python scripts/validate_marketplace.py
 ```
 
-Validation checks registration, file layout, semantic versions, metadata synchronization, frontmatter, required documentation sections, examples, and text hygiene.
+Validation checks registration, file layout, semantic versions, metadata synchronization, required documentation sections, examples, and text hygiene.
 
 ## Publishing and contribution
 
