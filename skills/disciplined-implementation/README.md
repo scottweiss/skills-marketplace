@@ -1,10 +1,12 @@
 # Disciplined Implementation
 
-A reusable, risk-calibrated implementation discipline for substantial engineering work.
+An intentionally strict implementation discipline for substantial engineering work.
 
 ## Summary
 
-Disciplined Implementation defines a repeatable loop for scoping, orientation, baseline capture, proof selection, implementation, verification, review, publication, and auditable reporting. It is deliberately opinionated while remaining language-, framework-, repository-, and harness-neutral.
+Disciplined Implementation codifies a rigorous delivery loop derived from observed Fable 5 behavior: orient before editing, ground plans in real code, prove behavior through RED→GREEN, run the complete repository gate before every commit, inspect the actual artifact, review independently, and leave exact evidence.
+
+The strictness is intentional. This is an opinionated execution policy, not a menu of optional best practices. A required step may be waived only when it is impossible or genuinely inapplicable, with explicit substitute proof, authorization, and residual-risk reporting.
 
 ## When to use
 
@@ -14,17 +16,19 @@ Use this skill for:
 - bug fixes with regression risk
 - refactors that require behavioral proof
 - public contract, schema, migration, permission, concurrency, or security changes
-- investigations that need explicit evidence and a reconstructable conclusion
+- investigations that require reconstructable evidence
 
-For low-risk documentation or metadata edits, use the same evidence discipline with lighter ceremony. The skill explicitly permits alternatives to RED→GREEN when an automated failing test is not the strongest available proof.
+Trivial prose-only or mechanical metadata work may explicitly opt out before implementation. Once the skill is invoked for an in-scope task, do not scale it down based on perceived risk, cost, or convenience.
 
 ## Quick start
 
-1. Load `disciplined-implementation.md` into the agent's instruction context.
-2. Classify the task as low, medium, or high risk.
-3. Define acceptance criteria and required evidence before editing.
-4. Follow the core loop and finish with the evidence report.
-5. Run the target repository's own verification commands; do not substitute a generic checklist.
+1. Load `disciplined-implementation.md` into the agent's instruction context alongside the target repository's own instructions.
+2. Define acceptance criteria, non-goals, and required evidence.
+3. Orient in the real code and establish a baseline.
+4. Follow RED→GREEN for every behavior change.
+5. Run the complete repository-prescribed gate before every commit.
+6. Verify the real artifact and obtain an independent or clean-context review verdict.
+7. Finish with the evidence report, including every waiver and residual risk.
 
 ## Skill files
 
@@ -37,12 +41,13 @@ For low-risk documentation or metadata edits, use the same evidence discipline w
 
 - `registry.json` is the marketplace discovery index.
 - `skill.yaml` is the canonical per-skill contract; duplicated registry fields must remain synchronized.
-- Harness examples demonstrate prompt shape, not repository-specific commands.
+- Repository and task instructions take precedence when they conflict with the portable skill.
+- Harness examples demonstrate the required evidence and workflow, not repository-specific commands.
 - Pin a repository revision when deterministic skill behavior matters.
 
 ## Limitations
 
-- The skill cannot identify a repository's real verification gate without reading that repository's instructions and configuration.
-- Real-artifact verification may require credentials, services, devices, or environments unavailable to the agent; the gap must be reported as residual risk.
-- Independent review is strongest with a separate reviewer or clean context, but the skill provides an adversarial self-review fallback.
-- The method improves evidence and process discipline; it does not make an unsafe environment safe or replace domain expertise.
+- The skill cannot identify a repository's real verification gate without reading that repository's code, instructions, and configuration.
+- Some environments cannot provide required services, credentials, devices, production-like data, or destructive test targets; these constraints require explicit waivers.
+- Independent review is strongest with a separate reviewer; clean-context adversarial self-review is a weaker fallback.
+- Strict process reduces avoidable implementation risk but does not replace security, legal, operational, accessibility, or other domain-specific expertise.
