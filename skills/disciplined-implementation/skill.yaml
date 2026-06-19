@@ -1,13 +1,14 @@
 id: disciplined-implementation
 slug: disciplined-implementation
 name: Disciplined Implementation
-version: 1.0.0
-summary: Structured implementation loop for reliable delivery, verification, and review.
+version: 1.1.0
+summary: Risk-calibrated implementation loop for evidence-driven delivery, verification, review, and reporting.
+description: >-
+  A rigorous, portable engineering method for implementing features, fixing bugs,
+  refactoring, or investigating codebases while protecting existing work and
+  scaling verification to risk.
 author: Scott Weiss
 license: MIT
-description: |
-  A rigorous, portable engineering method for implementing features, fixing bugs,
-  refactoring, or investigating codebases. Language- and tool-neutral.
 
 entry: skills/disciplined-implementation/disciplined-implementation.md
 readme: skills/disciplined-implementation/README.md
@@ -16,13 +17,15 @@ examples:
   - skills/disciplined-implementation/examples/claude-usage.md
 
 tags:
-  - engineering
-  - methodology
-  - testing
+  - audit
   - code-review
   - discipline
+  - engineering
+  - methodology
+  - process
+  - risk-management
+  - testing
   - verification
-  - audit
 
 harness_compatibility:
   codex:
