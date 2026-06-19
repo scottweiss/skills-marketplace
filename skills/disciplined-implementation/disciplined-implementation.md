@@ -101,6 +101,13 @@ Commit / pull request:
 
 Do not invent counts. Use exact numbers when the tool exposes them, and name checks that were skipped, blocked, or unavailable.
 
+## Limitations
+
+- This method cannot discover a repository's real contracts or verification gate without access to its code, configuration, and instructions.
+- Unavailable services, credentials, devices, production-like data, or destructive environments limit real-artifact verification; report the gap rather than simulating certainty.
+- A clean-context self-review is useful but weaker than genuinely independent review.
+- Process evidence reduces avoidable risk; it does not replace security, legal, operational, accessibility, or other domain-specific expertise.
+
 ## Red flags / stop
 
 | About to… | Instead… |
