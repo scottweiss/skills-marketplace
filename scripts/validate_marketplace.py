@@ -28,12 +28,16 @@ def main() -> int:
     if not SEMVER.fullmatch(str(registry.get("marketplace", {}).get("version", ""))):
         errors.append("marketplace version must use semantic versioning")
     actual_ids = sorted(path.name for path in (root / "skills").iterdir() if path.is_dir())
-    if ids != sorted(set(ids)) or actual_ids != sorted(ids):
+    str_ids = [i for i in ids if isinstance(i, str)]
+    if str_ids != sorted(set(str_ids)) or actual_ids != sorted(str_ids) or len(str_ids) != len(ids):
         errors.append("registry ids must be sorted, unique, and match skill directories")
 
     referenced = 0
     for item in skills:
-        skill_id = item["id"]
+        skill_id = item.get("id")
+        if not isinstance(skill_id, str):
+            errors.append("registry entry is missing a valid string id")
+            continue
         prefix = f"skills/{skill_id}/"
         expected = {
             "slug": skill_id,
@@ -81,6 +85,8 @@ def main() -> int:
         referenced += 3 + len(examples)
 
     for path in root.rglob("*"):
+        if ".git" in path.parts:
+            continue
         if path.is_file() and path.suffix in {".json", ".md", ".py", ".txt", ".yaml", ".yml"}:
             text = path.read_text(encoding="utf-8")
             if "\r" in text or (text and not text.endswith("\n")):
