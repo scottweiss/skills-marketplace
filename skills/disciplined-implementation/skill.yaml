@@ -2,11 +2,12 @@ id: disciplined-implementation
 slug: disciplined-implementation
 name: Disciplined Implementation
 version: 1.1.0
-summary: Risk-calibrated implementation loop for evidence-driven delivery, verification, review, and reporting.
+summary: Strict test-first implementation loop with full-gate verification, real-artifact checks, independent review, and auditable reporting.
 description: >-
-  A rigorous, portable engineering method for implementing features, fixing bugs,
-  refactoring, or investigating codebases while protecting existing work and
-  scaling verification to risk.
+  An intentionally strict, portable engineering method for substantial coding
+  tasks. It requires orientation, grounded planning, RED→GREEN, complete
+  verification before every commit, real-artifact checks, independent review,
+  and exact evidence; waivers are limited to impossible or inapplicable steps.
 author: Scott Weiss
 license: MIT
 
@@ -23,7 +24,7 @@ tags:
   - engineering
   - methodology
   - process
-  - risk-management
+  - tdd
   - testing
   - verification
 
