@@ -1,6 +1,6 @@
 # Skills Marketplace
 
-A public, author-curated marketplace of reusable skills for AI coding agents and teams. The collection reflects Scott Weiss's preferred engineering practices while remaining portable enough to share and integrate across projects.
+A public, author-curated marketplace of reusable skills for AI coding agents and teams. The collection reflects Scott Weiss's preferred engineering practices while remaining portable enough to share and integrate across projects. The skills are deliberately opinionated; portability means reusable across environments, not neutral or lowest-common-denominator guidance.
 
 ## Why this repository
 
@@ -25,7 +25,7 @@ This repository packages practical engineering skills so they can be:
 
 | Skill | Summary | Version |
 | --- | --- | --- |
-| [Disciplined Implementation](skills/disciplined-implementation/) | Risk-calibrated implementation loop for evidence-driven delivery, verification, review, and reporting | 1.1.0 |
+| [Disciplined Implementation](skills/disciplined-implementation/) | Strict test-first implementation loop with full-gate verification, real-artifact checks, independent review, and auditable reporting | 1.1.0 |
 
 ## Quick start
 
