@@ -1,13 +1,15 @@
 id: disciplined-implementation
 slug: disciplined-implementation
 name: Disciplined Implementation
-version: 1.0.0
-summary: Structured implementation loop for reliable delivery, verification, and review.
+version: 1.1.0
+summary: Strict test-first implementation loop with full-gate verification, real-artifact checks, independent review, and auditable reporting.
+description: >-
+  An intentionally strict, portable engineering method for substantial coding
+  tasks. It requires orientation, grounded planning, RED→GREEN, complete
+  verification before every commit, real-artifact checks, independent review,
+  and exact evidence; waivers are limited to impossible or inapplicable steps.
 author: Scott Weiss
 license: MIT
-description: |
-  A rigorous, portable engineering method for implementing features, fixing bugs,
-  refactoring, or investigating codebases. Language- and tool-neutral.
 
 entry: skills/disciplined-implementation/disciplined-implementation.md
 readme: skills/disciplined-implementation/README.md
@@ -16,13 +18,15 @@ examples:
   - skills/disciplined-implementation/examples/claude-usage.md
 
 tags:
-  - engineering
-  - methodology
-  - testing
+  - audit
   - code-review
   - discipline
+  - engineering
+  - methodology
+  - process
+  - tdd
+  - testing
   - verification
-  - audit
 
 harness_compatibility:
   codex:

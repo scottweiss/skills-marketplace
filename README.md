@@ -1,31 +1,38 @@
 # Skills Marketplace
 
-A curated, machine-discoverable marketplace of reusable skills for AI coding agents and teams.
+A public, author-curated marketplace of reusable skills for AI coding agents and teams. The collection reflects Scott Weiss's preferred engineering practices while remaining portable enough to share and integrate across projects. The skills are deliberately opinionated; portability means reusable across environments, not neutral or lowest-common-denominator guidance.
 
 ## Why this repository
 
 This repository packages practical engineering skills so they can be:
-- discovered via `registry.json`
-- integrated across harnesses (Codex, Claude, and others)
-- reused consistently across projects
+
+- discovered through `registry.json`
+- integrated across harnesses such as Codex and Claude
+- versioned and reused consistently across projects
+- validated against explicit metadata and documentation contracts
 
 ## Marketplace structure
 
-- `registry.json` — canonical index of published skills
-- `skills/<skill-id>/` — one directory per skill
-- `docs/` — contributor and integration guidance
+- `registry.json` — canonical discovery index
+- `skills/<skill-id>/skill.yaml` — canonical per-skill metadata contract
+- `skills/<skill-id>/<skill-id>.md` — executable skill instructions
+- `skills/<skill-id>/README.md` — human-facing overview
+- `skills/<skill-id>/examples/` — harness-specific usage
+- `scripts/validate_marketplace.py` — local and CI contract validation
+- `docs/` — contribution, authoring, and integration guidance
 
 ## Available skills
 
 | Skill | Summary | Version |
 | --- | --- | --- |
-| [Disciplined Implementation](skills/disciplined-implementation/) | Structured implementation loop for reliable delivery, verification, and review | 1.0.0 |
+| [Disciplined Implementation](skills/disciplined-implementation/) | Strict test-first implementation loop with full-gate verification, real-artifact checks, independent review, and auditable reporting | 1.1.0 |
 
 ## Quick start
 
 ### Discover skills
 
 Inspect `registry.json` and read each skill entry's:
+
 - `slug`
 - `summary`
 - `entry`
@@ -42,7 +49,16 @@ skills:
 
 ### Use with Claude
 
-Open `skills/disciplined-implementation/disciplined-implementation.md` and include it in your system/custom instructions.
+Open the skill's declared entry file and include it in system or custom instructions alongside the target repository's own guidance.
+
+## Validate the marketplace
+
+```bash
+python -m pip install -r requirements-validation.txt
+python scripts/validate_marketplace.py
+```
+
+Validation checks registration, file layout, semantic versions, metadata synchronization, required documentation sections, examples, and text hygiene.
 
 ## Publishing and contribution
 
@@ -52,9 +68,10 @@ Open `skills/disciplined-implementation/disciplined-implementation.md` and inclu
 
 ## Stability and compatibility
 
-- Skill contracts are declared in `skill.yaml`
-- Marketplace discovery contracts are declared in `registry.json`
-- Validation checks run in `.github/workflows/validate.yml`
+- `skill.yaml` is the canonical contract for an individual skill.
+- `registry.json` is the canonical marketplace discovery index.
+- Mirrored fields must agree; CI rejects drift.
+- Skill and marketplace versions use semantic versioning.
 
 ## License
 

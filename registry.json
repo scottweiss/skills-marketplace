@@ -1,9 +1,9 @@
 {
   "marketplace": {
     "name": "Scott Weiss Skills Marketplace",
-    "description": "Portable engineering skills for AI coding harnesses",
-    "summary": "Machine-discoverable marketplace of reusable skills with cross-harness integration guidance.",
-    "version": "1.1.0",
+    "description": "A public, author-curated collection of portable skills for AI coding harnesses",
+    "summary": "Machine-discoverable engineering skills with explicit contracts, examples, and validation.",
+    "version": "1.2.0",
     "author": "Scott Weiss",
     "repository": "https://github.com/scottweiss/skills-marketplace",
     "license": "MIT"
@@ -13,21 +13,22 @@
       "id": "disciplined-implementation",
       "slug": "disciplined-implementation",
       "name": "Disciplined Implementation",
-      "version": "1.0.0",
-      "summary": "Structured implementation loop for reliable delivery, verification, and review.",
-      "description": "A rigorous, portable engineering method for implementing features, fixing bugs, refactoring, or investigating codebases.",
+      "version": "1.1.0",
+      "summary": "Strict test-first implementation loop with full-gate verification, real-artifact checks, independent review, and auditable reporting.",
+      "description": "An intentionally strict, portable engineering method for substantial coding tasks. It requires orientation, grounded planning, RED→GREEN, complete verification before every commit, real-artifact checks, independent review, and exact evidence; waivers are limited to impossible or inapplicable steps.",
       "path": "skills/disciplined-implementation/",
       "entry": "skills/disciplined-implementation/disciplined-implementation.md",
       "readme": "skills/disciplined-implementation/README.md",
       "tags": [
+        "audit",
+        "code-review",
+        "discipline",
         "engineering",
         "methodology",
-        "testing",
-        "code-review",
         "process",
-        "discipline",
-        "verification",
-        "audit"
+        "tdd",
+        "testing",
+        "verification"
       ],
       "harnesses": {
         "codex": {
@@ -50,12 +51,15 @@
           "skills/disciplined-implementation/examples/claude-usage.md"
         ],
         "keywords": [
+          "audit",
+          "code-review",
           "discipline",
           "engineering",
+          "methodology",
+          "process",
+          "tdd",
           "testing",
-          "review",
-          "verification",
-          "methodology"
+          "verification"
         ]
       }
     }
